@@ -1,7 +1,7 @@
 
 # Evolution
 
-Evolution is a survival sandbox environment about creatures competing over food.
+Evolution is a survival sandbox environment about creatures competing over food. Project's main aim is to create a suitable environment for students to create their machine learning models. What is expected from players is to create a creature model that can survive the longest in the game.
 
 The world consists of 4 components:
 
