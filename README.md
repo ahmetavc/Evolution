@@ -26,6 +26,8 @@ If the health is equal  or below zero, the creature is declared dead an will not
 
 Every creature has a brain. Brain implemantations should be in the brains folder and should inherit brain interface.
 
+Official readme file will be added.
+
 
 ## Requirements
 
