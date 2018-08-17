@@ -24,11 +24,13 @@ Reproduce (Create a copy of itself, dividing it's health over both)
 After that, the health of the creature is reduced by a fixed amount.
 If the health is equal  or below zero, the creature is declared dead an will not be updated any more.
 
+Every creature has a brain. Brain implemantations should be in the brains folder and should inherit brain interface.
+
 
 ## Requirements
 
 Make sure the following packages are available:
 
-Python 3.x
-pip install opencv-python
+Python 3.x | 
+pip install opencv-python | 
 pip install pygame
