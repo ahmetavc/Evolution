@@ -28,6 +28,7 @@ Every creature has a brain. Brain implemantations should be in the brains folder
 
 You will see my two different brain implementations in the brains file. If you want you can run the game with these brains but they are still under development state and not well trained.
 
+Official project development place is GitLab.
 Official readme file will be added.
 
 
