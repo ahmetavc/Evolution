@@ -1,9 +1,9 @@
-# INTRODUCTION TO EVOLUTION
+# Introduction to Evolution
 
 Evolution is a survival sandbox environment about creatures competing over food. Players need to implement their brain classes in order to control creatures. Objective of players is to create a brain model that can make creatures to survive the longest in the environment. Everyone can upload their model and challenge their creatures in the simulation. The main aim of this project is to create a suitable environment for students to create their machine learning models feasibly.
 
 
-# HOW TO PLAY
+# How to Play
 
 Before starting to develop your own brain model and playing the game, the only thing interests you about 'evolution simulation' is brain interface. You just basically need to create a brain class in the brains directory by implementing brain interface. You can find the details of the brain interface and the game in the details section.
 
