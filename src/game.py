@@ -1,5 +1,5 @@
-import numpy as np 
-import brain 
+import numpy as np
+import brain
 import creature
 import worldmap
 import zoo
@@ -11,15 +11,15 @@ import copy
 #Dynamically loading all brain implementations:
 def loadBrains():
     brainDirectory = "brains"
-    fileList = [f for f in os.listdir(brainDirectory) if ( 
+    fileList = [f for f in os.listdir(brainDirectory) if (
         os.path.isfile(os.path.join(brainDirectory, f) ) and ( os.path.splitext(f)[1] == ".py" ))]
- 
+
     for f in fileList:
         print(f)
         moduleName = os.path.splitext(f)[0]
         __import__(brainDirectory+"."+moduleName, fromlist=[''])
 
-        
+
 loadBrains()
 
 #There should be spawn method that creates new creatures to the map for every player class
@@ -29,7 +29,7 @@ class Game:
 	def __init__(self, mapsize = (100,100), tilesize = (5,5), waterlevel = 0.1):
 
 		#Creating game map
-		self.worldmap = worldmap.Map(mapsize,tilesize, waterlevel)	
+		self.worldmap = worldmap.Map(mapsize,tilesize, waterlevel)
 		self.creatures = []
 		self.zoo = zoo.Zoo()
 
@@ -62,13 +62,13 @@ class Game:
 		i = 0
 
 		for brain in self.brains:
-			
+
 			self.brainHueValues[brain.__name__] = hueArray[i]
 			i += 1
 
 
 	def spawnCreatures(self):
-		 
+
 		if self.noOfCreatures < self.lowerNoOfCreatures:
 			for brain in self.brains:
 						print(brain.__name__, ' ' , brain.teamScore)
@@ -89,15 +89,14 @@ class Game:
 
 		position = np.array( [random.randint(0,self.worldmap.mapsize[0]-1), random.randint(0,self.worldmap.mapsize[1]-1) ] )
 
-		#spawn position should be on the land, until find a suitable place, we repeat 
+		#spawn position should be on the land, until find a suitable place, we repeat
 		while True:
 
-        	
+
 			if self.worldmap.worldframe[:,:,self.worldmap.LAYERID_WATERDEPTH][position[0],position[1]] == 0:
 				break
 
 			position = np.array( [random.randint(0,self.worldmap.mapsize[0]-1), random.randint(0,self.worldmap.mapsize[1]-1) ] )
-        
 
 		#creating new random positioned creature
 		newCreature = creature.Creature(position)
@@ -105,7 +104,7 @@ class Game:
 		#setting fresh new brain
 		worldViewShape = (newCreature.sight*2 + 1,newCreature.sight*2 + 1,self.worldmap.LAYERS)
 		newCreature.setBrain(self,brain(numberOfActions = newCreature.numberOfActions, creatureStatsShape = newCreature.creatureStatsShape, worldViewShape  = worldViewShape), worldmap = self.worldmap)
-		
+
 
 
 		self.creatures.append(newCreature)
@@ -130,22 +129,13 @@ class Game:
 				self.creatures.remove(creature)
 				self.noOfCreatures -= 1
 
-				if ( self.zoo.checkForHighscore(creature) ):
-					
-					self.zoo.printHighscore()
+				#if ( self.zoo.checkForHighscore(creature) ):
 
-
-
+					#self.zoo.printHighscore()
 
 	def render(self):
 		self.worldmap.render(self)
 
-    
-	#return the rendered pygame picture  
+	#return the rendered pygame picture
 	def getImage(self):
 		return self.worldmap.getImage()
-
-
-
-
-

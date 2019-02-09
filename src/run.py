@@ -12,18 +12,18 @@ import numpy as np
 
 def main():
     # mapsize in (height, width)
-    game = g.Game( mapsize = (100,100), tilesize = (5,5), waterlevel = 0.1 )
+    game = g.Game( mapsize = (40,60), tilesize = (18,18), waterlevel = 0.1 )
 
     if GFX:
         # Initialise screen
         pygame.init()
-    
+
         screen = pygame.display.set_mode(game.worldmap.worldsizeInPixels())
         pygame.display.set_caption('Evolution')
 
         # Fill background
         background = pygame.Surface(screen.get_size())
-        ackground = background.convert()
+        background = background.convert()
         background.fill((250, 250, 250))
 
 
@@ -45,4 +45,3 @@ def main():
 
 
 if __name__ == '__main__': main()
-

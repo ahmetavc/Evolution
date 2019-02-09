@@ -13,8 +13,8 @@ import colorsys
 class Creature():
 
     #indexes in the creature properties array
-    POS_POSITION_X = 0
-    POS_POSITION_Y = 1
+    POS_POSITION_Y = 0
+    POS_POSITION_X = 1
     POS_HEALTH = 2
     POS_ALIVE = 3
     POS_ALIVECOUNTER = 4
@@ -26,7 +26,7 @@ class Creature():
         self.id = uuid.uuid4().hex
         #self.color = np.random.randint(low=0, high=255, size=(4))
         #self.color[3] = 255
-        self.size = (3,3)
+        self.size = (15,15)
 
         if GFX:
             self.image = np.zeros((self.size[0],self.size[1],4), np.uint8)
@@ -36,8 +36,8 @@ class Creature():
         #This is the array that we keep the necessary properties of creature
         self.creatureStats = np.zeros(self.TOTAL,dtype=np.float64)
 
-        self.creatureStats[self.POS_POSITION_X] = position[0]
-        self.creatureStats[self.POS_POSITION_Y] = position[1]
+        self.creatureStats[self.POS_POSITION_Y] = position[0]
+        self.creatureStats[self.POS_POSITION_X] = position[1]
         self.creatureStats[self.POS_HEALTH] = 1
         self.creatureStats[self.POS_ALIVE] = 1
         self.creatureStats[self.POS_ALIVECOUNTER] = 0
@@ -48,8 +48,7 @@ class Creature():
         self.creatureStatsShape = 5 # its the shape of creatues's status np array
         self.sight = 5 #the number of tiles that creature can see, for one axis, towards one side
 
-    #ACTIONS OF CREATURE    
-
+    #ACTIONS OF CREATURE
 
     def setBrain(self,game,brain,worldmap,parentBrain = None):
 
@@ -59,7 +58,7 @@ class Creature():
         #Calling the birth method whenever a new brain is created.
         self.brain.birth(np.copy(self.creatureStats), worldViewOfCreature = np.copy(worldmap.getEnvironmentOfCreature(self)), parentBrain = parentBrain)
 
-        
+
         if GFX:
             hue = game.brainHueValues[self.brain.__class__.__name__]
             brightness = self.brain.brightness()
@@ -74,56 +73,56 @@ class Creature():
 
     def moveUp(self,worldmap):
 
-        newPosition = (self.creatureStats[self.POS_POSITION_X],self.creatureStats[self.POS_POSITION_Y]-1)
+        newPosition = (self.creatureStats[self.POS_POSITION_Y]-1,self.creatureStats[self.POS_POSITION_X])
 
         #If the creature's new position is out of bounds, we slide it
         newPosition = self.slideCreature(newPosition,worldmap)
 
         #The creature cannot be on the ocean
         if self.validMove(newPosition,worldmap) == True:
-            self.creatureStats[self.POS_POSITION_X] = newPosition[0]
-            self.creatureStats[self.POS_POSITION_Y] = newPosition[1]
+            self.creatureStats[self.POS_POSITION_Y] = newPosition[0]
+            self.creatureStats[self.POS_POSITION_X] = newPosition[1]
 
 
 
     def moveDown(self,worldmap):
-        newPosition = (self.creatureStats[self.POS_POSITION_X],self.creatureStats[self.POS_POSITION_Y]+1)
+        newPosition = (self.creatureStats[self.POS_POSITION_Y]+1,self.creatureStats[self.POS_POSITION_X])
 
         newPosition = self.slideCreature(newPosition,worldmap)
 
         if self.validMove(newPosition,worldmap) == True:
-            self.creatureStats[self.POS_POSITION_X] = newPosition[0]
-            self.creatureStats[self.POS_POSITION_Y] = newPosition[1]
+            self.creatureStats[self.POS_POSITION_Y] = newPosition[0]
+            self.creatureStats[self.POS_POSITION_X] = newPosition[1]
 
 
 
     def moveLeft(self,worldmap):
-        newPosition = (self.creatureStats[self.POS_POSITION_X]-1,self.creatureStats[self.POS_POSITION_Y])
+        newPosition = (self.creatureStats[self.POS_POSITION_Y],self.creatureStats[self.POS_POSITION_X]-1)
 
         newPosition = self.slideCreature(newPosition,worldmap)
 
         if self.validMove(newPosition,worldmap) == True:
-            self.creatureStats[self.POS_POSITION_X] = newPosition[0]
-            self.creatureStats[self.POS_POSITION_Y] = newPosition[1]
+            self.creatureStats[self.POS_POSITION_Y] = newPosition[0]
+            self.creatureStats[self.POS_POSITION_X] = newPosition[1]
 
 
 
     def moveRight(self,worldmap):
-        newPosition = (self.creatureStats[self.POS_POSITION_X]+1,self.creatureStats[self.POS_POSITION_Y])
+        newPosition = (self.creatureStats[self.POS_POSITION_Y],self.creatureStats[self.POS_POSITION_X]+1)
 
         newPosition = self.slideCreature(newPosition,worldmap)
 
         if self.validMove(newPosition,worldmap) == True:
-            self.creatureStats[self.POS_POSITION_X] = newPosition[0]
-            self.creatureStats[self.POS_POSITION_Y] = newPosition[1]
+            self.creatureStats[self.POS_POSITION_Y] = newPosition[0]
+            self.creatureStats[self.POS_POSITION_X] = newPosition[1]
 
 
     def eat(self,worldmap):
-        
-        self.creatureStats[self.POS_HEALTH] += worldmap.worldframe[int(self.creatureStats[self.POS_POSITION_X]),int(self.creatureStats[self.POS_POSITION_Y]),worldmap.LAYERID_VEGETATION]
+
+        self.creatureStats[self.POS_HEALTH] += worldmap.worldframe[int(self.creatureStats[self.POS_POSITION_Y]),int(self.creatureStats[self.POS_POSITION_X]),worldmap.LAYERID_VEGETATION]
         if ( self.creatureStats[self.POS_HEALTH] ) > 1.0:
             self.creatureStats[self.POS_HEALTH] = 1.0
-        worldmap.worldframe[int(self.creatureStats[self.POS_POSITION_X]),int(self.creatureStats[self.POS_POSITION_Y]),worldmap.LAYERID_VEGETATION] = 0
+        worldmap.worldframe[int(self.creatureStats[self.POS_POSITION_Y]),int(self.creatureStats[self.POS_POSITION_X]),worldmap.LAYERID_VEGETATION] = 0
 
 
     #gives birth to a child creature
@@ -153,7 +152,7 @@ class Creature():
 
     #if the creature excess the size of the map, it comes up on the other side of map
     def slideCreature(self,position,worldmap):
-        
+
         newPosition =list(position)
 
         if newPosition[0] < 0 :
@@ -169,13 +168,13 @@ class Creature():
             newPosition[1] -= worldmap.mapsize[1]
 
         return tuple(newPosition)
-    
-    
+
+
     def validMove( self, newPosition, worldmap ):
 
         if ( worldmap.worldframe[int(newPosition[0]),int(newPosition[1]),worldmap.LAYERID_WATERDEPTH] != 0.0 ): return False
         return True
-        
+
 
     #creature update method, for each round
     def update(self, worldmap, game):
@@ -187,7 +186,7 @@ class Creature():
         action = self.brain.act(np.copy(self.creatureStats),np.copy(worldViewOfCreature))
 
         self.creatureStats[self.POS_ALIVECOUNTER] += 1
- 
+
         #move up
         if ( action == 0 ):
             self.moveUp(worldmap)
@@ -200,7 +199,7 @@ class Creature():
         #move right
         elif ( action == 3 ):
             self.moveRight(worldmap)
-        
+
         #eat vegetation
         elif ( action == 4 ):
             self.eat(worldmap)
@@ -221,14 +220,13 @@ class Creature():
 
 
         return self.creatureStats[self.POS_ALIVE]
-        
+
     def getSize(self):
         return self.size
-        
+
     def render(self):
         self.image[:,:] = self.color
         return self.image
 
     def hsvTorgb(self,h,s,v):
         return tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h,s,v))
-

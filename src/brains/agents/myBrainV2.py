@@ -28,7 +28,7 @@ class MyBrainV2(Brain):
 			return
 		else:
 			MyBrainV2._globalInit = True
-            
+
 		MyBrainV2.possibleActions = possibleActions
 		MyBrainV2.creatureStatsShape = creatureStatsShape
 		MyBrainV2.worldViewShape = worldViewShape
@@ -49,12 +49,12 @@ class MyBrainV2(Brain):
 	    #to compute the loss, and use it to update the network.
 		MyBrainV2.reward_holder = tf.placeholder(shape=[1,None],dtype=tf.float32)
 		MyBrainV2.action_holder = tf.placeholder(shape=[1,None],dtype=tf.int32)
-	    
+
 		MyBrainV2.indexes = tf.range(0, tf.shape(MyBrainV2.x)[0]) * tf.shape(MyBrainV2.x)[1] + MyBrainV2.action_holder
 		MyBrainV2.responsible_outputs = tf.gather(tf.reshape(MyBrainV2.x, [-1]), MyBrainV2.indexes)
 
 		MyBrainV2.loss = -tf.reduce_mean(tf.log(MyBrainV2.responsible_outputs)*MyBrainV2.reward_holder)
-	    
+
 		MyBrainV2.optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
 		MyBrainV2.update_batch = MyBrainV2.optimizer.minimize(MyBrainV2.loss)
 
@@ -111,7 +111,7 @@ class MyBrainV2(Brain):
 
 			self.rewardHistory.append(reward)
 			self.rewardHistory = self.discount_rewards(self.rewardHistory)
-			
+
 
 
 		if len(self.stateHistory) == MyBrainV2.update_frequency:
@@ -176,11 +176,3 @@ class MyBrainV2(Brain):
 
 	def brightness(self):
 		return 0.5
-
-
-
-
-
-
-
-
